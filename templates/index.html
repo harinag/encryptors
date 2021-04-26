@@ -11,18 +11,29 @@
         <div class="alert alert-primary" role="alert">
             Шифратор Цезаря
         </div>
+        <div class="alert">
+            <span>Подсказка: отрицательный ключ - расшифровывает сообщение, а положительный - зашифровывает</span>
+        </div>
         <div class="row">
             <div class="col-md">
-                До какого числа искать?
+                Исходный текст (только по-русски):
             </div>
             <div class="col-md">
-                <input type="number" class="form-control" value="{{upto}}" id="inpUpto">
+                <input type="text" class="form-control" value="{{thetext}}" id="theText">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md">
+                Ключ шифра (от -32 до 32):
+            </div>
+            <div class="col-md">
+                <input type="number" class="form-control" value="{{thekey}}" id="theKey">
             </div>
         </div>
         <div class="row mt-2">
             <div class="col-md"></div>
             <div class="col-md">
-                <button class="btn btn-danger" id="btnStart">Запуск!</button>
+                <button class="btn btn-danger" id="btnStart">ПУСК!</button>
             </div>
         </div>
     </div>
@@ -37,13 +48,14 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
     <script>
-        $("#inpUpto").keypress(function(e){
+        $("#theText").keypress(function(e){
             if (e.which == 13) $("#btnStart").click();
         })
         $("#btnStart").click(function(){
             $("#resbox").html("Ожидаем результат...");
-            var inpval = $("#inpUpto").val();
-            $.get("calc", { upto: inpval }).done(function(data) {
+            var theText = $("#theText").val();
+            var theKey = $("#theKey").val();
+            $.get("encrypt", { theKey: theKey, theText: theText }).done(function(data) {
                 $("#resbox").html(data);
             });
         });
